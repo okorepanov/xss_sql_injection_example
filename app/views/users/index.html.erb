@@ -1,0 +1,49 @@
+<h1>Users</h1>
+
+<ul>
+  <% @users.each do |user| %>
+    <li>
+      <p>First Name: <%= user.first_name %></p>
+      <p>Last Name: <%= user.last_name %></p>
+    </li>
+  <% end %>
+</ul>
+
+<h1>Options</h1>
+
+<p><%= link_to 'Create User', users_new_path %></p>
+
+<%= form_with url: users_path, html: { method: :get, remote: true } do |form| %>
+  <span>Filter users by first_name, last_name or email</span>
+  <%= form.text_field :query %>
+  <%= form.submit 'Filter' %>
+<% end %>
+
+<%= form_with url: users_delete_all_path, html: { method: :delete, remote: true } do |form| %>
+  <span>Delete users by first_name, last_name or email</span>
+  <%= form.text_field :query %>
+  <%= form.submit 'Delete' %>
+<% end %>
+
+<h1>Comments</h1>
+
+<ul>
+  <% Comment.all.each do |comment| %>
+    <li>
+      <p>Author: <%= comment.author %></p>
+      <p>Comment: <%= comment.body.html_safe %></p>
+    </li>
+  <% end %>
+</ul>
+
+<%= form_with model: Comment.new, url: comments_path  do |f| %>
+  <div>
+    <%= f.label :body %>
+    <%= f.text_field :body %>
+  </div>
+  <div>
+    <%= f.label :author %>
+    <%= f.text_field :author %>
+  </div>
+  <%= f.submit 'Create' %>
+<% end %>
